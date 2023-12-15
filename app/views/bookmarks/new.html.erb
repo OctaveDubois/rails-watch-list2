@@ -1,2 +1,13 @@
-<h1>Bookmarks#new</h1>
-<p>Find me in app/views/bookmarks/new.html.erb</p>
+<div class="container pt-5">
+
+<h1>Ajouter un film à <%= @list.name %></h1>
+
+<%= simple_form_for [@list, @bookmark] do |f| %>
+<%= f.input :list_name, label: "Nom de la liste", input_html: { value: @list.name, readonly: true } %>
+<%= f.association :movie, label: "Films" %>
+<%= f.input :comment, label: "Commentaire" %>
+<%= f.submit "Ajouter" %>
+  <% end %>
+
+
+</div>

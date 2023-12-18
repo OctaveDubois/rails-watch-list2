@@ -1,5 +1,20 @@
+<%= render 'shared/carroussel' %>
 <div class="container pt-5">
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+<button type="button" class="btn-close" aria-label="Close"></button>
+<%= link_to raw('<i class="fa-solid fa-arrow-rotate-left"></i> Retour'), :back, class: 'btn btn-secondary me-md-2' %>
+<%= link_to raw('<i class="fa-solid fa-arrow-rotate-left"></i> Retour'), :back, class: 'btn btn-disabled me-md-2' %>
+</div>
 
 <h1><%=@list.name%></h1>
 
+<% @list.movies.each do |movie| %>
+<h1><%= movie.title %></h1>
+<p><%= movie.overview %></p>
+<p><%= movie.poster_url %></p>
+<p><%= movie.rating %></p>
+<br>
+<% end %>
+
+<%= link_to "Ajouter un film", new_list_bookmark_path(@list.id), class: "btn btn-primary" %>
 </div>

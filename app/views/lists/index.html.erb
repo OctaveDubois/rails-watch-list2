@@ -1,21 +1,35 @@
-<div class="container pt-5">
+<%= render 'shared/carroussel_list' %>
 
-  <h1>Mes listes de films</h1>
+<style>
+  .custom-card-img {
+    max-height: 350px; /* Ajustez la hauteur maximale souhaitée */
+    object-fit: cover;
+  }
+</style>
 
-  <%= link_to "Créer une nouvelle liste" , new_list_path %>
-  <br>
-  <br>
-  <% @lists.each do |list| %>
-  <a href="<%= list_path(list.id) %>">
-  <div class="card w-75">
-    <div class="card-body">
-      <h5 class="card-title">
-        <%= list.name %>
-      </h5>
-      <%= link_to "Ajouter un film", new_list_bookmark_path(list.id), class: "btn btn-primary" %>
-</a>
-    </div>
+<div class="container pt-5 position-relative">
+  <%= link_to "Créer une nouvelle liste" , new_list_path, class: "btn btn-success position-absolute top-0 end-0 p-3 mt-3 text-decoration-none text-white" %>
+
+  <div class="row row-cols-1 row-cols-md-4 g-4">
+    <% @lists.each do |list| %>
+      <div class="col">
+        <% image_url = ["https://fr.web.img6.acsta.net/pictures/22/07/22/11/32/1588141.jpg","https://fr.web.img6.acsta.net/pictures/23/07/28/14/17/5661948.jpg","https://toutelaculture.com/wp-content/uploads/2023/01/affiche-Babylone-680x924.webp", "https://fr.web.img5.acsta.net/pictures/23/08/01/13/52/4599315.jpg"].sample %>
+        <%= link_to list_path(list), class: "text-decoration-none text-dark" do %>
+          <div class="card h-100 d-flex flex-column">
+            <img src="<%= image_url %>" class="card-img-top img-fluid custom-card-img" alt="...">
+            <div class="card-body text-center d-flex flex-column">
+              <h4 class="card-title flex-grow-1">
+                <%= list.name %>
+                <span class="small">(<%= list.movies.size %>)</span>
+              </h4>
+              <%= link_to new_list_bookmark_path(list.id), class: "btn btn-secondary mt-auto" do %>
+                <i class="fas fa-plus"></i> Ajouter un film
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   </div>
-  <br>
-  <% end %>
 </div>
+

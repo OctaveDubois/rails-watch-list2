@@ -1,20 +1,62 @@
-<%= render 'shared/carroussel' %>
-<div class="container pt-5">
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-<button type="button" class="btn-close" aria-label="Close"></button>
-<%= link_to raw('<i class="fa-solid fa-arrow-rotate-left"></i> Retour'), :back, class: 'btn btn-secondary me-md-2' %>
-<%= link_to raw('<i class="fa-solid fa-arrow-rotate-left"></i> Retour'), :back, class: 'btn btn-disabled me-md-2' %>
+<%# -------------- BANNER ------------------------------------------------- %>
+
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <%# -------------- Image en local ---------------------- %>
+      <img src="<%= image_path('banner.png') %>" class="img-fluid w-100" alt="...">
+
+      <div class="carousel-caption d-none d-md-block"
+        style="position: absolute; top: 50%; transform: translateY(-50%);">
+        <h1><%=@list.name%></h1>
+        <p>K?edk,fe,fe, k,e,ozfofzek ofofeokfre</p>
+      </div>
+    </div>
+  </div>
 </div>
 
-<h1><%=@list.name%></h1>
 
-<% @list.movies.each do |movie| %>
-<h1><%= movie.title %></h1>
-<p><%= movie.overview %></p>
-<p><%= movie.poster_url %></p>
-<p><%= movie.rating %></p>
-<br>
-<% end %>
+<%# -------------- Bouton ajouter un film---------------------- %>
 
-<%= link_to "Ajouter un film", new_list_bookmark_path(@list.id), class: "btn btn-primary" %>
-</div>
+<div class="container pt-5 position-relative">
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <%= link_to raw('<i class="fa-solid fa-arrow-rotate-left"></i> Retour'), :back, class: 'btn btn-secondary me-md-2' %>
+    <%= link_to "Ajouter un film", new_list_bookmark_path(@list.id), class: "btn btn-primary" %>
+  </div>
+  <div class="container pt-5">
+
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      <%# -------------- Avoir accès à movie ---------------------- %>
+      <% @list.movies.each do |movie| %>
+      <%# -------------- Avoir accès à bookmark ---------------------- %>
+      <% movie.bookmarks.each do |bookmark| %>
+      <div class="col">
+        <div class="card h-100 position-relative">
+          <%# -------------- Bouton supprimer sur l'image ---------------------- %>
+          <button class="btn btn-warning position-absolute top-0 end-0 m-2">
+            <%= link_to "Supprimer", list_bookmark_path(@list, bookmark),
+                        method: :delete,
+                        data: { turbo_method: :delete, turbo_confirm: "Êtes-vous sûr de vouloir supprimer cet élément ?" } %>
+          </button>
+          <%# -------------- Image en local ---------------------- %>
+          <img src="https://image.tmdb.org/t/p<%= movie.poster_url %>" class="card-img-top" alt="...">
+          <div class="card-body">
+            <%# -------------- Titre ---------------------- %>
+            <h3 class="card-title"><%= movie.title %>
+              <span class="small text-muted"> (<%= movie.rating.round(1) %><i class="fa-solid fa-star"
+                  style="color: #f0e800;"></i>)</span>
+            </h3>
+            <%# --------------Texte ---------------------- %>
+            <p class="card-text"><%= movie.overview %></p>
+            <hr>
+            <%# -------------- Commentaire + icone ---------------------- %>
+            <i class="fa-solid fa-comment"></i> <%= bookmark.comment %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+      <% end %>
+    </div>
+    <br>
+  </div>

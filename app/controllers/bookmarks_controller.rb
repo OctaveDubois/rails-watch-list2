@@ -21,7 +21,7 @@ class BookmarksController < ApplicationController
     @list = @bookmark.list
 
     if @bookmark.destroy
-      redirect_to lists_path(@list), notice: 'Bookmark was successfully deleted.'
+      redirect_to list_path(@list), notice: 'Le film a été supprimé avec succés.'
     else
       redirect_to list_path(@list), alert: 'Unable to delete the bookmark.'
     end
